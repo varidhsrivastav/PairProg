@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation';
 export const formSchema = z.object({
     name: z.string().min(3).max(50),
     description: z.string().min(3).max(50),
-    languages: z.string().min(3).max(50),
+    tags: z.string().min(3).max(50),
     githubRepo: z.string().min(3).max(50),
 });
 export function CreateRoomForm(){
@@ -28,7 +28,7 @@ export function CreateRoomForm(){
         defaultValues: {
           name: "",
           description:"",
-          languages: "",
+          tags: "",
           githubRepo: ""
         },
       })
@@ -46,7 +46,7 @@ export function CreateRoomForm(){
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder="dev finder is awsome "/>
               </FormControl>
               <FormDescription>
                 This is your public display name.
@@ -62,7 +62,7 @@ export function CreateRoomForm(){
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input  {...field} />
+                <Input  {...field} placeholder="I'm working on the side project, come join me" />
               </FormControl>
               <FormDescription>
                 please describe what you want to coding room
@@ -78,7 +78,7 @@ export function CreateRoomForm(){
             <FormItem>
               <FormLabel>Github Repo</FormLabel>
               <FormControl>
-                <Input  {...field} />
+                <Input  {...field} placeholder="https://github.com/ " />
               </FormControl>
               <FormDescription>
                 please put a link the project you are working on
@@ -89,15 +89,15 @@ export function CreateRoomForm(){
         />
         <FormField
           control={form.control}
-          name="languages"
+          name="tags"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>rimary Programming languages</FormLabel>
+              <FormLabel>Tags</FormLabel>
               <FormControl>
-                <Input  {...field} />
+                <Input  {...field} placeholder="typescript,nextjs,react..." />
               </FormControl>
               <FormDescription>
-                list the primary programming language
+                List your  programming languages, frameworks, liberaries so people can find  you easily. Separate by commas
               </FormDescription>
               <FormMessage />
             </FormItem>

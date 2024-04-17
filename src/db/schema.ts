@@ -78,8 +78,8 @@ import { Languages } from "lucide-react";
       .references(() => users.id, { onDelete: "cascade" }),
     name: text("name").notNull(),
     description: text("description"),
-    languages:text("language").notNull(),
-    // tags: text("tags").notNull(),
+    // languages:text("language").notNull(),
+    tags: text("tags").notNull(),
     githubRepo: text("githubRepo"),
   });
 
