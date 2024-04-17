@@ -1,9 +1,38 @@
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { getRoom } from "@/data-access/rooms";
 import {db} from "@/db"
+import { Room } from "@/db/schema";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-
+function RoomCard({room}:{room:Room}){
+  return(
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          {room.name}
+        </CardTitle>
+        <CardDescription>{room.description}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Link href={room.githubRepo as string} className="flex items-center gap-2" target="_blank">
+          <GitHubLogoIcon/>
+          Github Project
+        </Link>
+        
+      </CardContent>
+      <CardFooter>
+      <Button asChild>
+        <Link href={`/rooms/${room.id}`}>
+        Join room
+        </Link>
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}
 export default async function Home() {
-  const rooms = await db.query.room.findMany();
+  const rooms = await getRoom();
   return (
     <main className=" min-h-screen  p-16">
       <div className="flex justify-between items-center">
@@ -14,9 +43,11 @@ export default async function Home() {
         </Link>
         </Button>
       </div>
+      <div className="mt-8 grid grid-cols-3 gap-4">
       {rooms.map((room)=>{
-        return <div key={room.userId}>{room.name}</div>
+        return <RoomCard key={room.id} room={room}/>
       })}
+      </div>
     </main>
   );
 }
