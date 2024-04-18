@@ -1,4 +1,5 @@
-import { splitTags, TagsList } from "@/components/tags-list";
+import { TagsList } from "@/components/tags-list";
+import { splitTags } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,36 +14,19 @@ import { db } from "@/db";
 import { Room } from "@/db/schema";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-function RoomCard({ room }: { room: Room }) {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{room.name}</CardTitle>
-        <CardDescription>{room.description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {room.githubRepo && (
-          <Link
-            href={room.githubRepo as string}
-            className="flex items-center gap-2"
-            target="_blank"
-          >
-            <GitHubLogoIcon />
-            Github Project
-          </Link>
-        )}
-        <TagsList tags={splitTags(room.tags)} />
-      </CardContent>
-      <CardFooter>
-        <Button asChild>
-          <Link href={`/rooms/${room.id}`}>Join room</Link>
-        </Button>
-      </CardFooter>
-    </Card>
-  );
-}
-export default async function Home() {
-  const rooms = await getRooms();
+import { SearchBar } from "./search-bar";
+import { unstable_noStore } from "next/cache";
+import { RoomCard } from "@/app/your-rooms/user-room-card";
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: {
+    search: string;
+  };
+}) {
+  unstable_noStore();
+  const rooms = await getRooms(searchParams.search);
+
   return (
     <main className=" min-h-screen  p-16">
       <div className="flex justify-between items-center">
@@ -50,6 +34,9 @@ export default async function Home() {
         <Button asChild>
           <Link href="/create-room">Create Room</Link>
         </Button>
+      </div>
+      <div className="mt-20">
+        <SearchBar />
       </div>
       <div className="mt-8 grid grid-cols-3 gap-4">
         {rooms.map((room) => {
