@@ -24,7 +24,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
-// import { deleteAccountAction } from "./actions";
+import { deleteAccountAction } from "./actions";
 
 function AccountDropdown() {
   const session = useSession();
@@ -41,7 +41,7 @@ function AccountDropdown() {
               account and any data your have.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          {/* <AlertDialogFooter>
+          <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={async () => {
@@ -51,7 +51,7 @@ function AccountDropdown() {
             >
               Yes, delete my account
             </AlertDialogAction>
-          </AlertDialogFooter> */}
+          </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
 

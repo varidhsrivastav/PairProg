@@ -5,6 +5,7 @@ import { Providers } from "./provider";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Header } from "./header";
 import NextTopLoader from 'nextjs-toploader';
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-      <NextTopLoader />
         <Providers>
+          <Toaster/>
+      <NextTopLoader />
           <Header/>
           {/* <ModeToggle/> */}
           <div className="container mx-auto">{children}</div>

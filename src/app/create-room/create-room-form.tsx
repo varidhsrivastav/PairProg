@@ -1,5 +1,6 @@
 "use client";
-import z from "zod";
+
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -15,27 +16,39 @@ import {
 import { Input } from "@/components/ui/input";
 import { createRoomAction } from "./actions";
 import { useRouter } from "next/navigation";
-export const formSchema = z.object({
-  name: z.string().min(3).max(50),
-  description: z.string().min(3).max(50),
-  tags: z.string().min(3).max(50),
-  githubRepo: z.string().min(3).max(50),
+import { useToast } from "@/components/ui/use-toast";
+
+const formSchema = z.object({
+  name: z.string().min(1).max(50),
+  description: z.string().min(1).max(250),
+  githubRepo: z.string().min(1).max(50),
+  tags: z.string().min(1).max(50),
 });
+
 export function CreateRoomForm() {
+  const { toast } = useToast();
+
   const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       description: "",
-      tags: "",
       githubRepo: "",
+      tags: "",
     },
   });
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await createRoomAction(values);
-    router.push("/");
+    const room = await createRoomAction(values);
+    toast({
+      title: "Room Created",
+      description: "Your room was successfully created",
+    });
+    router.push(`/rooms/${room.id}`);
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -44,17 +57,16 @@ export function CreateRoomForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="dev finder is awsome " />
+                <Input {...field} placeholder="Dev Finder Is Awesome" />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
+              <FormDescription>This is your public room name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="description"
@@ -64,16 +76,17 @@ export function CreateRoomForm() {
               <FormControl>
                 <Input
                   {...field}
-                  placeholder="I'm working on the side project, come join me"
+                  placeholder="Im working on a side project, come join me"
                 />
               </FormControl>
               <FormDescription>
-                please describe what you want to coding room
+                Please describe what you are be coding on
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="githubRepo"
@@ -81,15 +94,19 @@ export function CreateRoomForm() {
             <FormItem>
               <FormLabel>Github Repo</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="https://github.com/ " />
+                <Input
+                  {...field}
+                  placeholder="https://github.com/webdevcody/dev-finder"
+                />
               </FormControl>
               <FormDescription>
-                please put a link the project you are working on
+                Please put a link to the project you are working on
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="tags"
@@ -97,16 +114,17 @@ export function CreateRoomForm() {
             <FormItem>
               <FormLabel>Tags</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="typescript,nextjs,react..." />
+                <Input {...field} placeholder="typescript, nextjs, tailwind" />
               </FormControl>
               <FormDescription>
-                List your programming languages, frameworks, liberaries so
-                people can find you easily. Separate by commas
+                List your programming languages, frameworks, libraries so people
+                can find you content
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <Button type="submit">Submit</Button>
       </form>
     </Form>
