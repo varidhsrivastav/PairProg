@@ -7,7 +7,9 @@ import {
     uuid,
   } from "drizzle-orm/pg-core";
   import type { AdapterAccount } from "next-auth/adapters"
+  // drizzle orm 
   import { sql } from "drizzle-orm";
+  // vercel orm 
 import { Languages } from "lucide-react";
 
 

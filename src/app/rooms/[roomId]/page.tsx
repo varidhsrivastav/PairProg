@@ -1,40 +1,50 @@
-import { splitTags, TagsList } from "@/components/tags-list";
-import { Badge } from "@/components/ui/badge";
+import { TagsList } from "@/components/tags-list";
 import { getRoom } from "@/data-access/rooms";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { TagsIcon } from "lucide-react";
+import { GithubIcon } from "lucide-react";
 import Link from "next/link";
 import { DevFinderVideo } from "./video-player";
+import { splitTags } from "@/lib/utils";
+import { unstable_noStore } from "next/cache";
 
-export default async function Roompage(props:{params: {roomId:string}}){
-    // console.log(props)
-    const roomId=props.params.roomId;
-    const room =await getRoom(roomId);
-    if(!room){
-        return <div> No such room</div>
-    }
-    
-    return(
-    <div className="grid grid-cols-4 min-h-screen" >
-        <div className="col-span-3 p-4 pr-2 ">
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-4">
-                Video <DevFinderVideo room={room}/>
-            </div>
+export default async function RoomPage(props: { params: { roomId: string } }) {
+  unstable_noStore();
+  const roomId = props.params.roomId;
+
+  const room = await getRoom(roomId);
+
+  if (!room) {
+    return <div>No room of this ID found</div>;
+  }
+
+  return (
+    <div className="grid grid-cols-4 min-h-screen">
+      <div className="col-span-3 p-4 pr-2">
+        <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-4 min-h-screen">
+          <DevFinderVideo room={room} />
         </div>
-        <div className="col-span-1 p-4 pl-2">
+      </div>
+
+      <div className="col-span-1 p-4 pl-2">
         <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-4 flex flex-col gap-4">
-            <div className="text-bae">{room?.name}</div>
-            <p className="text-base text-gray-600">{room?.description}</p>
-            {
-          room.githubRepo && <Link href={room.githubRepo as string} className="flex items-center gap-2" target="_blank">
-          <GitHubLogoIcon/>
-          Github Project
-        </Link>
-        }
-           <TagsList tags={splitTags(room.tags)} />
-            
+          <h1 className="text-base">{room?.name}</h1>
+
+          {room.githubRepo && (
+            <Link
+              href={room.githubRepo}
+              className="flex items-center gap-2 text-center text-sm"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <GithubIcon />
+              Github Project
+            </Link>
+          )}
+
+          <p className="text-base text-gray-600">{room?.description}</p>
+
+          <TagsList tags={splitTags(room.tags)} />
         </div>
-        </div>
+      </div>
     </div>
-    )
+  );
 }
