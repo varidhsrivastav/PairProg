@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:push": "drizzle-kit push:pg --config=drizzle.config.ts",
+    "db:push": "drizzle-kit push --config=drizzle.config.ts",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
@@ -46,7 +46,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
-    "drizzle-orm": "^0.30.8",
+    "drizzle-orm": "^0.30.10",
     "embla-carousel-react": "^8.0.2",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.368.0",
@@ -73,7 +73,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "drizzle-kit": "^0.20.17",
+    "drizzle-kit": "^0.21.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.1",
     "postcss": "^8",

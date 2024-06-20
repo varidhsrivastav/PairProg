@@ -102,12 +102,11 @@ export function Header() {
           className="flex gap-2 items-center text-xl hover:underline"
         >
           <Image
-            src="/logo.png"
-            width="60"
-            height="60"
+            src="/logo2.png"
+            width="150"
+            height="150"
             alt="the application icon of a magnifying glass"
           />
-          PairProgramming 
         </Link>
 
         <nav className="flex gap-8">
